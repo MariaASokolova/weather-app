@@ -70,8 +70,17 @@ function showCurrTemp(response) {
   ctempview.innerHTML = `${currtemp}`;
 }
 
+function searchLocation(position) {
+  let apiKey = "15132c0c33ce6e6df2635ad5416e41db";
+  let apiUrl = `https://api.openweathermap.org/data/2.5/weather?lat=${position.coords.latitude}&lon=${position.coords.longitude}&appid=${apiKey}&units=metric`;
+
+  axios.get(apiUrl).then(showCurrTemp);
+}
+
+function getCurrentLocation(event) {
+  event.preventDefault();
+  navigator.geolocation.getCurrentPosition(searchLocation);
+}
+
 let button = document.querySelector("#curr-loc");
-button.addEventListener(
-  "click",
-  navigator.geolocation.getCurrentPosition(extractPosition)
-);
+button.addEventListener("click", getCurrentLocation);
